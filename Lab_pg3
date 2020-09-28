@@ -1,0 +1,51 @@
+**Schema (MySQL v5.7)**
+
+    create table STUDENT(SSN integer primary key,Name varchar(10),Major varchar(10),Bdate date);
+    create table COURSE(Course_No integer primary key,Cname varchar(10),Dept varchar(10));
+    create table TEXT1(Book_ISBN integer primary key,Book_Title varchar(10),Publisher varchar(10),Author varchar(10));
+    create table BOOK_ADOPTION(Course_No integer,Quarter integer,Book_ISBN integer,primary key(Course_No,Quarter),foreign key(Course_No) references COURSE(Course_No),foreign key(Book_ISBN) references TEXT1(Book_ISBN));
+    create table ENROLL(SSN integer,Course_No integer,Quarter integer,Grade varchar(5),primary key(SSN,Course_No,Quarter),foreign key(SSN) references STUDENT(SSN),foreign key(Course_No,Quarter) references BOOK_ADOPTION(Course_No,Quarter));
+    insert into STUDENT values(101,'sumanth','CS','2000-07-07');
+    insert into STUDENT values(102,'Sam','ME','2000-08-09');
+    insert into STUDENT values(103,'Rohit','AERO','2000-01-24');
+    insert into STUDENT values(104,'Rana','MT','2000-06-07');
+    insert into STUDENT values(105,'Sumith','EC','2000-05-16');
+    insert into COURSE values(11,'ATC','CS');
+    insert into COURSE values(12,'ADP','ISE');
+    insert into COURSE values(13,'DBMS','MT');
+    insert into COURSE values(14,'ADE','EC');
+    insert into COURSE values(15,'ME','AE');
+    insert into TEXT1 values(1,'DBMS','Sree','Sushanth');
+    insert into TEXT1 values(2,'ATC','Kumar','Rakul');
+    insert into TEXT1 values(3,'JAVA','Akshar','Aman');
+    insert into TEXT1 values(4,'ME','Sudeep','Samarth');
+    insert into TEXT1 values(5,'CIVIL','Rahul','Dev');
+    insert into BOOK_ADOPTION values(11,'5','1');
+    insert into BOOK_ADOPTION values(12,'6','2');
+    insert into BOOK_ADOPTION values(13,'7','3');
+    insert into BOOK_ADOPTION values(14,'8','4');
+    insert into BOOK_ADOPTION values(15,'9','5');
+    insert into ENROLL values(101,11,5,'A');
+    insert into ENROLL values(102,12,6,'B');
+    insert into ENROLL values(103,13,7,'C');
+    insert into ENROLL values(104,14,8,'D');
+    insert into ENROLL values(105,15,9,'E');
+    
+
+---
+
+**Query #1**
+
+    select *from STUDENT;
+
+| SSN | Name    | Major | Bdate      |
+| --- | ------- | ----- | ---------- |
+| 101 | sumanth | CS    | 2000-07-07 |
+| 102 | Sam     | ME    | 2000-08-09 |
+| 103 | Rohit   | AERO  | 2000-01-24 |
+| 104 | Rana    | MT    | 2000-06-07 |
+| 105 | Sumith  | EC    | 2000-05-16 |
+
+---
+
+[View on DB Fiddle](https://www.db-fiddle.com/)
