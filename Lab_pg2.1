@@ -1,0 +1,10 @@
+**Schema (MySQL v5.7)**
+
+    create table SALESMAN(salesman_id integer primary key,Name varchar(20),city varchar(10),Commission integer);
+    create table CUSTOMER(Customer_id integer primary key,Cust_name varchar(20),city varchar(10),grade integer,salesman_id integer,foreign key(salesman_id)references SALESMAN(Salesman_id)on delete cascade);
+    create table ORDERS(ord_no integer primary key,purchase_amt integer,ord_date date,Customer_id integer,salesman_id integer,foreign key(Customer_id)references CUSTOMER(Customer_id)on delete cascade,foreign key(Salesman_id)references SALESMAN(Salesman_id)on delete cascade);
+
+---
+
+
+[View on DB Fiddle](https://www.db-fiddle.com/)
