@@ -1,0 +1,63 @@
+**Schema (MySQL v5.7)**
+
+    create table ACTOR(Act_id integer primary key,Act_Name varchar(20),Act_Gender varchar(1));
+    create table DIRECTOR(Dir_id integer primary key,Dir_Name varchar(20),Dir_Phone varchar(10));
+    create table MOVIES(Mov_id integer primary key,Mov_Title varchar(20),Mov_Year integer,Mov_Lang varchar(10),Dir_id integer,foreign key(Dir_id)references DIRECTOR(Dir_id)on delete cascade);
+    create table MOVIE_CAST(Act_id integer,Mov_id integer,Role varchar(10),primary key(Act_id,Mov_id),foreign key(Act_id)references ACTOR(Act_id)on delete cascade,foreign key(Mov_id)references MOVIES (Mov_id)on delete cascade);
+    create table RATING(Mov_id integer primary key,Rev_Stars integer,foreign key(Mov_id)references MOVIES(Mov_id)on delete cascade);
+    insert into ACTOR values(300,'Rohan','M');
+    insert into ACTOR values(301,'Hrithik','M');
+    insert into ACTOR values(302,'Disha','F');
+    insert into ACTOR values(303,'Tushar','M');
+    insert into ACTOR values(304,'Tomy Hardy','F');
+    insert into DIRECTOR values(100,'Rakesh','9905467456');
+    insert into DIRECTOR values(101,'Divya','8232456788');
+    insert into DIRECTOR values(102,'Jimmy','9754676770');
+    insert into DIRECTOR values(103,'Tiger','9442228790');
+    insert into DIRECTOR values(104,'Hardy','8754659088');
+    insert into MOVIES values(1000,'Badlapur-1',2016,'Hindi',102);
+    insert into MOVIES values(1001,'War-2',2019,'Hindi',102);
+    insert into MOVIES values(1002,'Joker',2018,'English',103);
+    insert into MOVIES values(1003,'Venom',2015,'Hindi',101);
+    insert into MOVIES values(1004,'Dangal',2017,'English',104);
+    insert into MOVIE_CAST values(300,1002,'Hero');
+    insert into MOVIE_CAST values(301,1000,'Hero');
+    insert into MOVIE_CAST values(302,1003,'Heroine'); 
+    insert into MOVIE_CAST values(303,1001,'Villain');
+    insert into MOVIE_CAST values(304,1004,'Villain'); 
+    insert into RATING values(1000,8);
+    insert into RATING values(1001,7);
+    insert into RATING values(1002,9);
+    insert into RATING values(1003,6);
+    insert into RATING values(1004,10);                                                                                        
+                                                                                            
+
+---
+
+**Query #1**
+
+    select Mov_Title from MOVIES M,DIRECTOR D where M.Dir_id=D.Dir_id and Dir_Name="Divya";
+
+| Mov_Title |
+| --------- |
+| Venom     |
+
+---
+**Query #2**
+
+    select Mov_Title from MOVIES M where Dir_id in(select D.Dir_id from DIRECTOR D where D.Dir_id=M.Dir_id and D.Dir_Name="Divya");
+
+| Mov_Title |
+| --------- |
+| Venom     |
+
+---
+**Query #3**
+
+    select Mov_Title from MOVIES M,MOVIE_CAST MC where M.Mov_id=MC.Mov_id and Act_id in(select Act_id from MOVIE_CAST group by Act_id having count(*)>1);
+
+There are no results to be displayed.
+
+---
+
+[View on DB Fiddle](https://www.db-fiddle.com/)
